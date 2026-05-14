@@ -1,0 +1,2544 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAR & DRP PCNE V9.1 — Pasien DEDY | RSUD Pasar Minggu</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy-mid: #1b2e42;
+            --navy-light: #263e56;
+            --teal: #0fa3b1;
+            --teal-light: #b5e2fa;
+            --teal-pale: #e8f7fa;
+            --amber: #e9a000;
+            --amber-pale: #fff5dc;
+            --red: #c0392b;
+            --red-pale: #fdecea;
+            --green: #1a7a4a;
+            --green-pale: #e8f6ee;
+            --purple: #5c3d9e;
+            --purple-pale: #f0eafb;
+            --gray-1: #f7f8fa;
+            --gray-2: #eaecef;
+            --gray-3: #c8cdd6;
+            --gray-4: #8a93a2;
+            --gray-5: #4a525f;
+            --text: #1b2330;
+            --text-mid: #4a525f;
+            --text-light: #8a93a2;
+            --font: "IBM Plex Sans", sans-serif;
+            --mono: "IBM Plex Mono", monospace;
+            --radius: 6px;
+            --radius-lg: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--gray-1);
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ========== PAGE HEADER ========== */
+        .page-header {
+            background: var(--navy);
+            color: white;
+            padding: 28px 36px 22px;
+            border-bottom: 3px solid var(--teal);
+        }
+
+        .page-header .hosp {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--teal);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 14px;
+        }
+
+        .patient-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            background: var(--navy-mid);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--navy-light);
+        }
+
+        .ps-item {
+            padding: 10px 14px;
+            border-right: 1px solid var(--navy-light);
+        }
+
+        .ps-item:last-child {
+            border-right: none;
+        }
+
+        .ps-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--teal);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .ps-val {
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        /* ========== TABS ========== */
+        .tabs-bar {
+            background: var(--navy-mid);
+            display: flex;
+            padding: 0 36px;
+            border-bottom: 2px solid var(--teal);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            padding: 14px 22px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition:
+                color 0.2s,
+                border-color 0.2s;
+            letter-spacing: 0.01em;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            color: var(--teal);
+            border-bottom-color: var(--teal);
+        }
+
+        /* ========== CONTENT ========== */
+        .tab-content {
+            display: none;
+            padding: 28px 36px 48px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ========== SECTION TITLES ========== */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-sub {
+            font-size: 12px;
+            color: var(--text-mid);
+            margin-bottom: 18px;
+        }
+
+        /* ========== MAR TABLE ========== */
+        .mar-wrap {
+            overflow-x: auto;
+            margin-bottom: 28px;
+        }
+
+        table.mar {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 860px;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        table.mar thead tr.th-group th {
+            background: var(--navy);
+            color: white;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-align: center;
+            border-right: 1px solid var(--navy-light);
+        }
+
+        table.mar thead tr.th-group th.left {
+            text-align: left;
+        }
+
+        table.mar thead tr.th-days th {
+            background: var(--navy-mid);
+            color: var(--teal-light);
+            padding: 6px 8px;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+            border-right: 1px solid var(--navy-light);
+            white-space: nowrap;
+        }
+
+        table.mar tbody tr {
+            border-bottom: 1px solid var(--gray-2);
+        }
+
+        table.mar tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        table.mar tbody tr.row-odd td {
+            background: #fff;
+        }
+
+        table.mar tbody tr.row-even td {
+            background: var(--gray-1);
+        }
+
+        table.mar tbody td {
+            padding: 8px 10px;
+            vertical-align: top;
+            border-right: 1px solid var(--gray-2);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        table.mar tbody td.drug-col {
+            text-align: left;
+            min-width: 180px;
+        }
+
+        table.mar tbody td.route-col {
+            min-width: 70px;
+        }
+
+        table.mar tbody td.freq-col {
+            min-width: 110px;
+            text-align: left;
+            font-size: 11px;
+            color: var(--text-mid);
+        }
+
+        table.mar tbody tr.sep-row td {
+            background: var(--navy);
+            color: var(--teal-light);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            text-align: left;
+        }
+
+        .drug-name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        .drug-ind {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        .stop-tag {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 3px;
+            background: var(--red-pale);
+            color: var(--red);
+            margin-top: 3px;
+            letter-spacing: 0.02em;
+        }
+
+        .route-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .r-iv {
+            background: #dcf0fb;
+            color: #0a5e80;
+        }
+
+        .r-sc {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+
+        .r-po {
+            background: var(--amber-pale);
+            color: #7a5200;
+        }
+
+        .r-inh {
+            background: #f3e8ff;
+            color: var(--purple);
+        }
+
+        .r-inf {
+            background: var(--gray-2);
+            color: var(--gray-5);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin: 1px;
+        }
+
+        .given {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+
+        .stopped {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+
+        .pending {
+            background: var(--amber-pale);
+            color: #7a5200;
+        }
+
+        .na-cell {
+            color: var(--gray-3);
+            font-size: 11px;
+        }
+
+        .day-note {
+            font-size: 9px;
+            color: var(--text-light);
+            display: block;
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+
+        /* ========== LEGEND ========== */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-2);
+            font-size: 11px;
+            color: var(--text-mid);
+        }
+
+        .leg {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ========== NOTES ========== */
+        .note-box {
+            background: white;
+            border: 1px solid var(--gray-2);
+            border-left: 3px solid var(--teal);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            font-size: 11px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            margin-top: 16px;
+        }
+
+        .note-box strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ========== DRP CARDS ========== */
+        .drp-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--gray-2);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            border-top: 3px solid var(--teal);
+        }
+
+        .stat-card.red-top {
+            border-top-color: var(--red);
+        }
+
+        .stat-card.amber-top {
+            border-top-color: var(--amber);
+        }
+
+        .stat-card.green-top {
+            border-top-color: var(--green);
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-val {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .drp-card {
+            background: white;
+            border: 1px solid var(--gray-2);
+            border-radius: var(--radius-lg);
+            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .drp-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px 10px;
+            border-bottom: 1px solid var(--gray-2);
+        }
+
+        .drp-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+            font-family: var(--mono);
+        }
+
+        .drp-title-block {
+            flex: 1;
+        }
+
+        .drp-title-block .drp-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .drp-title-block .drp-drug {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .sev-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 0.02em;
+        }
+
+        .sev-kritis {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+
+        .sev-tinggi {
+            background: var(--amber-pale);
+            color: #7a5200;
+        }
+
+        .sev-sedang {
+            background: #dcf0fb;
+            color: #0a5e80;
+        }
+
+        .sev-rendah {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+
+        .drp-body {
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+        }
+
+        .drp-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .drp-row.full {
+            grid-column: 1/-1;
+        }
+
+        .drp-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .drp-val {
+            font-size: 12px;
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .code-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-right: 4px;
+            margin-bottom: 3px;
+            font-family: var(--mono);
+        }
+
+        .cb-p {
+            background: var(--purple-pale);
+            color: var(--purple);
+        }
+
+        .cb-c {
+            background: var(--amber-pale);
+            color: #7a5200;
+        }
+
+        .cb-i {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+
+        .cb-a {
+            background: #dcf0fb;
+            color: #0a5e80;
+        }
+
+        .cb-o-solved {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+
+        .cb-o-partial {
+            background: var(--amber-pale);
+            color: #7a5200;
+        }
+
+        .cb-o-not {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+
+        .cb-o-unk {
+            background: var(--gray-2);
+            color: var(--gray-5);
+        }
+
+        .code-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 11px;
+        }
+
+        .code-leg-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-mid);
+        }
+
+        .section-divider {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            padding: 8px 0 6px;
+            border-bottom: 1px solid var(--gray-2);
+            margin: 20px 0 12px;
+        }
+
+        .outcome-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-2);
+            margin-top: 24px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .outcome-table thead th {
+            background: var(--navy);
+            color: white;
+            padding: 9px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: left;
+            border-right: 1px solid var(--navy-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .outcome-table tbody td {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-right: 1px solid var(--gray-2);
+            border-bottom: 1px solid var(--gray-2);
+            vertical-align: top;
+        }
+
+        .outcome-table tbody tr:nth-child(even) td {
+            background: var(--gray-1);
+        }
+
+        @media print {
+            .tabs-bar {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+                page-break-before: always;
+            }
+
+            .tab-content:first-of-type {
+                page-break-before: avoid;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="hosp">RSUD Pasar Minggu — Jakarta Selatan</div>
+        <h1>
+            Rekam Administrasi Obat (MAR) &amp; Masalah Terkait Obat (DRP) —
+            PCNE V9.1
+        </h1>
+        <div class="patient-strip">
+            <div class="ps-item">
+                <div class="ps-label">Nama Pasien</div>
+                <div class="ps-val">Tn. D</div>
+            </div>
+            <div class="ps-item">
+                <div class="ps-label">Ruangan</div>
+                <div class="ps-val">6002</div>
+            </div>
+            <div class="ps-item">
+                <div class="ps-label">DPJP</div>
+                <div class="ps-val">
+                    dr. Marscha Sp.P &amp; dr. Ardi Sp.PD
+                </div>
+            </div>
+            <div class="ps-item">
+                <div class="ps-label">Periode Perawatan</div>
+                <div class="ps-val">08 – 13 Mei 2026</div>
+            </div>
+            <div class="ps-item">
+                <div class="ps-label">Diagnosis Utama</div>
+                <div class="ps-val">
+                    DILI ec OAT · TB Paru · DM T2 · AKI/CKD
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-bar">
+        <button class="tab-btn active" onclick="showTab('mar', this)">
+            📋 Rekam Administrasi Obat (MAR)
+        </button>
+        <button class="tab-btn" onclick="showTab('drp', this)">
+            ⚠️ Masalah Terkait Obat — PCNE V9.1
+        </button>
+        <button class="tab-btn" onclick="showTab('ringkasan', this)">
+            📊 Ringkasan &amp; Rekomendasi
+        </button>
+    </div>
+
+    <!-- ===================== TAB 1: MAR ===================== -->
+    <div id="tab-mar" class="tab-content active">
+        <div class="section-title">Rekam Administrasi Obat (MAR)</div>
+        <div class="section-sub">
+            Catatan pemberian obat harian pasien DEDY — 08 Mei 2026
+            (pra-transfer RSUD Pesanggrahan) hingga 13 Mei 2026 (RSUD Pasar
+            Minggu)
+        </div>
+
+        <div class="legend">
+            <span class="leg"><span class="route-badge r-iv">IV</span>Intravena</span>
+            <span class="leg"><span class="route-badge r-sc">SK</span>Subkutan</span>
+            <span class="leg"><span class="route-badge r-po">PO</span>Oral</span>
+            <span class="leg"><span class="route-badge r-inh">INH</span>Inhalasi</span>
+            <span class="leg"><span class="route-badge r-inf">IVFD</span>Infus</span>
+            <span class="leg"><span class="pill given">✓</span>Diberikan</span>
+            <span class="leg"><span class="pill stopped">✕</span>Dihentikan</span>
+            <span class="leg"><span class="pill pending">–</span>Pra-transfer / belum
+                dimulai</span>
+        </div>
+
+        <div class="mar-wrap">
+            <table class="mar">
+                <thead>
+                    <tr class="th-group">
+                        <th class="left" colspan="3">
+                            Obat &amp; Keterangan
+                        </th>
+                        <th colspan="6">Hari Pemberian</th>
+                    </tr>
+                    <tr class="th-days">
+                        <th style="text-align: left; min-width: 180px">
+                            Nama Obat &amp; Dosis
+                        </th>
+                        <th>Jalur</th>
+                        <th style="text-align: left; min-width: 120px">
+                            Frekuensi &amp; Waktu
+                        </th>
+                        <th>08 Mei<br /><small>H-1*</small></th>
+                        <th>09 Mei<br /><small>H1</small></th>
+                        <th>10 Mei<br /><small>H2</small></th>
+                        <th>11 Mei<br /><small>H3</small></th>
+                        <th>12 Mei<br /><small>H4</small></th>
+                        <th>13 Mei<br /><small>H5</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- CAIRAN INFUS -->
+                    <tr class="sep-row">
+                        <td colspan="9">Cairan Infus Intravena</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">NaCl 0,9% 500 mL</div>
+                            <div class="drug-ind">
+                                Hidrasi &amp; rumatan cairan — AKI
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-inf">IVFD</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 12 jam<br />06:00 · 18:00
+                        </td>
+                        <td>
+                            <span class="pill pending">–</span><span class="day-note">RL di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="day-note">Mulai 06:00</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Ringer Laktat 500 mL
+                            </div>
+                            <div class="drug-ind">
+                                Cairan pra-transfer — RSUD Pesanggrahan
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-inf">IVFD</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 12 jam (pra-transfer)
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill stopped">✕</span><span class="day-note">Diganti NaCl</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <!-- ANTIEMETIK / LAMBUNG -->
+                    <tr class="sep-row">
+                        <td colspan="9">
+                            Antiemetik &amp; Perlindungan Lambung
+                        </td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">Ondansetron 4 mg</div>
+                            <div class="drug-ind">
+                                Antiemetik — mual &amp; muntah
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 8 jam<br />06:00 · 14:00 · 22:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">IGD + Bangsal</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">Omeprazol 40 mg</div>
+                            <div class="drug-ind">
+                                PPI — perlindungan lambung &amp; DILI
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 12 jam<br />06:00 · 18:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span class="day-note">Di
+                                Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">Ranitidin 50 mg</div>
+                            <div class="drug-ind">
+                                Antagonis H2 — dosis tunggal di IGD
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">Dosis tunggal (IGD)</td>
+                        <td class="na-cell">—</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">IGD ±00:42</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Sukralfat Sirup 15 mL
+                            </div>
+                            <div class="drug-ind">
+                                Pelindung mukosa lambung
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            3× sehari<br />07:00 · 13:00 · 19:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <!-- HEPATOPROTEKTOR -->
+                    <tr class="sep-row">
+                        <td colspan="9">
+                            Hepatoprotektor (Perlindungan Hati)
+                        </td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">SNMC 2 ampul</div>
+                            <div class="drug-ind">
+                                Glikorhizin dalam NaCl 250 mL — infus 2 jam
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">
+                            1× sehari × 2 hari<br />18:00
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H1 — 18:00<br />(H2 di Pesanggrahan
+                                08/05)</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H2 — 18:00</span>
+                        </td>
+                        <td>
+                            <span class="pill stopped">✕</span><span class="day-note">Kursus selesai</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">Curcuma</div>
+                            <div class="drug-ind">
+                                Hepatoprotektor — antiinflamasi kurkumin
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            3× sehari<br />07:00 · 13:00 · 19:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                NAC (N-Asetilsistein) 200 mg
+                            </div>
+                            <div class="drug-ind">
+                                Prekursor glutathion — dukungan DILI
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            3× sehari<br />07:00 · 13:00 · 19:00
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Mulai per Sp.P</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Asam Ursodeoksikolat 250 mg
+                            </div>
+                            <div class="drug-ind">
+                                UDCA — koleretik/hepatoprotektor
+                            </div>
+                            <span class="stop-tag">DIHENTIKAN per dr. Ardi</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">3× sehari → dihentikan</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill stopped">✕</span><span class="day-note">Dihentikan</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <!-- ANTIBIOTIK -->
+                    <tr class="sep-row">
+                        <td colspan="9">Antibiotik</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Levofloksasin 750 mg
+                            </div>
+                            <div class="drug-ind">
+                                Infeksi saluran napas — dosis disesuaikan
+                                eGFR 22
+                            </div>
+                            <span class="stop-tag">DIHENTIKAN per dr. Ardi 09 Mei</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 48 jam<br />Mulai 05/05 → 07/05 → 09/05
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">Dosis ke-3<br />Di
+                                Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">Dosis terakhir<br />±19:00 →
+                                STOP</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">Seftriakson 2 g</div>
+                            <div class="drug-ind">
+                                Pneumonia komunitas / infeksi respirasi —
+                                per Sp.P
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-iv">IV</span>
+                        </td>
+                        <td class="freq-col">1× sehari<br />06:00</td>
+                        <td class="na-cell">—</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H1 — Mulai</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H2</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H3</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H4</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">H5</span>
+                        </td>
+                    </tr>
+
+                    <!-- OAT -->
+                    <tr class="sep-row">
+                        <td colspan="9">Obat Anti-Tuberkulosis (OAT)</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Arsitam 500 mg (INH/RIF/PZA)
+                            </div>
+                            <div class="drug-ind">
+                                Kombinasi dosis tetap OAT
+                            </div>
+                            <span class="stop-tag">DIHENTIKAN 05 Mei — Penyebab DILI</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            1× sehari (pagi)<br />→ STOP 05/05/2026
+                        </td>
+                        <td class="na-cell">
+                            —<br /><span class="day-note">Sudah dihentikan sebelumnya</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">Rifamtibi 450 mg</div>
+                            <div class="drug-ind">
+                                Rifampisin — komponen OAT
+                            </div>
+                            <span class="stop-tag">DIHENTIKAN 05 Mei — Penyebab DILI</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            1× sehari (pagi)<br />→ STOP 05/05/2026
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <!-- DIABETES -->
+                    <tr class="sep-row">
+                        <td colspan="9">Manajemen Diabetes Melitus</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Novorapid (Insulin Aspart)
+                            </div>
+                            <div class="drug-ind">
+                                Insulin kerja cepat — DM T2 (OHO
+                                dikontraindikasikan pada AKI)
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-sc">SK</span>
+                        </td>
+                        <td class="freq-col">
+                            Skala geser → dosis tetap<br />Sebelum makan:
+                            07:00 · 13:00 · 19:00
+                        </td>
+                        <td>
+                            <span class="pill pending">–</span><span class="day-note">4 IU skala geser<br />Di
+                                Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">3×4 IU skala geser<br />GDS 246 pukul
+                                18:00</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">3×8 IU tetap<br />GDS 192/247</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">3×8 IU</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">3×8 IU<br />GDS 147/171/109</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">3×10 IU<br />per dr. Ardi</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">Metformin 500 mg</div>
+                            <div class="drug-ind">
+                                Biguanid — DM T2 (sebelum rawat inap)
+                            </div>
+                            <span class="stop-tag">Kontraindikasi: eGFR 22 mL/min</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            3× sehari (hanya pra-rawat)
+                        </td>
+                        <td class="na-cell">
+                            —<br /><span class="day-note">Dihentikan sebelum masuk RS</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <!-- RESPIRASI -->
+                    <tr class="sep-row">
+                        <td colspan="9">Dukungan Respirasi</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Combivent (Ipratropium + Salbutamol)
+                            </div>
+                            <div class="drug-ind">
+                                Bronkodilator — sesak napas, efusi pleura
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-inh">INH</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 8 jam<br />06:00 · 14:00 · 22:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-even">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Pulmicort (Budesonid) 0,5 mg
+                            </div>
+                            <div class="drug-ind">
+                                Kortikosteroid inhalasi — peradangan saluran
+                                napas
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-inh">INH</span>
+                        </td>
+                        <td class="freq-col">
+                            Setiap 12 jam<br />06:00 · 18:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span class="day-note">Di
+                                Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span>
+                        </td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                O₂ Nasal Kanul 3 LPM
+                            </div>
+                            <div class="drug-ind">
+                                Oksigen tambahan — dukungan SpO₂
+                            </div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-inh">INH</span>
+                        </td>
+                        <td class="freq-col">Kontinyu sesuai kebutuhan</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="day-note">Mulai H3 per Sp.P</span>
+                        </td>
+                        <td><span class="pill given">✓</span></td>
+                        <td><span class="pill given">✓</span></td>
+                    </tr>
+
+                    <!-- RENAL/METABOLIK -->
+                    <tr class="sep-row">
+                        <td colspan="9">Renal &amp; Metabolik</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">
+                                Bicnat (NaHCO₃) 500 mg
+                            </div>
+                            <div class="drug-ind">
+                                Koreksi asidosis metabolik pada AKI
+                            </div>
+                            <span class="stop-tag">DIHENTIKAN per dr. Ardi</span>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">3× sehari → dihentikan</td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill stopped">✕</span><span class="day-note">Dihentikan</span>
+                        </td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                        <td class="na-cell">—</td>
+                    </tr>
+
+                    <!-- ADJUVAN -->
+                    <tr class="sep-row">
+                        <td colspan="9">Terapi Adjuvan</td>
+                    </tr>
+
+                    <tr class="row-odd">
+                        <td class="drug-col">
+                            <div class="drug-name">HP Pro (Probiotik)</div>
+                            <div class="drug-ind">Pemulihan flora usus</div>
+                        </td>
+                        <td class="route-col">
+                            <span class="route-badge r-po">PO</span>
+                        </td>
+                        <td class="freq-col">
+                            3× sehari<br />07:00 · 13:00 · 19:00
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span><span class="day-note">Di Pesanggrahan</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                        <td>
+                            <span class="pill given">✓</span><span class="pill given">✓</span><span
+                                class="pill given">✓</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note-box">
+            <strong>Catatan:</strong><br />
+            * <strong>08 Mei</strong> = hari terakhir di RSUD Pesanggrahan
+            (pra-transfer). Waktu pemberian tidak terdokumentasi detail.<br />
+            * <strong>09 Mei H1</strong> = tiba di IGD RSUD Pasar Minggu
+            pukul 00:42, kemudian masuk bangsal ruang 6002.<br />
+            * <strong>OAT (Arsitam + Rifamtibi)</strong> dihentikan 05 Mei
+            2026 akibat DILI (SGOT 28× BAN, SGPT 38× BAN). Re-introduksi
+            menunggu SGPT &lt;2× BAN (&lt;100 U/L).<br />
+            * <strong>Levofloksasin</strong> dihentikan 09 Mei per dr. Ardi,
+            diganti Seftriakson. Total hanya 3 dosis (05/05, 07/05,
+            09/05).<br />
+            * <strong>UDCA &amp; Bicnat</strong> dihentikan 09–10 Mei —
+            de-prescribing tepat (pola hepatoselular, bukan kolestatik; AKI
+            membaik).<br />
+            * <strong>Insulin Novorapid</strong>: skala geser 3×4 IU (H1) →
+            tetap 3×8 IU (H2–H4) → 3×10 IU (H5). Penyesuaian berdasarkan
+            pemantauan GDS serial.<br />
+            * <strong>Rencana Pulang</strong> (per dr. Ardi): Metformin
+            3×500 mg + Gliklazid 2×80 mg menggantikan insulin saat eGFR
+            membaik &gt;30–45 mL/menit.
+        </div>
+    </div>
+
+    <!-- ===================== TAB 2: DRP PCNE ===================== -->
+    <div id="tab-drp" class="tab-content">
+        <div class="section-title">
+            Masalah Terkait Obat (MTO) — PCNE Klasifikasi V9.1
+        </div>
+        <div class="section-sub">
+            Analisis menggunakan kerangka kerja Pharmaceutical Care Network
+            Europe (PCNE) V9.1. Satu masalah dapat memiliki beberapa kode
+            penyebab dan intervensi.
+        </div>
+
+        <div class="drp-summary-grid">
+            <div class="stat-card red-top">
+                <div class="stat-lbl">Total MTO Teridentifikasi</div>
+                <div class="stat-val">9</div>
+                <div class="stat-sub">PCNE V9.1</div>
+            </div>
+            <div class="stat-card amber-top">
+                <div class="stat-lbl">Masalah Nyata (Manifest)</div>
+                <div class="stat-val">6</div>
+                <div class="stat-sub">Sudah terjadi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-lbl">Masalah Potensial</div>
+                <div class="stat-val">3</div>
+                <div class="stat-sub">
+                    Risiko — perlu tindakan pencegahan
+                </div>
+            </div>
+            <div class="stat-card green-top">
+                <div class="stat-lbl">Kritis / Prioritas Tinggi</div>
+                <div class="stat-val">5</div>
+                <div class="stat-sub">Memerlukan tindakan segera</div>
+            </div>
+        </div>
+
+        <div class="code-legend">
+            <span class="code-leg-item"><span class="code-badge cb-p">P</span>Kode Masalah</span>
+            <span class="code-leg-item"><span class="code-badge cb-c">C</span>Kode Penyebab</span>
+            <span class="code-leg-item"><span class="code-badge cb-i">I</span>Kode Intervensi</span>
+            <span class="code-leg-item"><span class="code-badge cb-a">A</span>Kode Penerimaan</span>
+            <span class="code-leg-item"><span class="code-badge cb-o-solved">O</span>Status
+                Luaran</span>
+        </div>
+
+        <div class="section-divider">
+            MTO 1–3 — Keamanan terapi: kejadian efek samping obat
+        </div>
+
+        <!-- MTO 1 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--red-pale); color: var(--red)">
+                    1
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Kerusakan Hati Akibat Obat (DILI) — disebabkan OAT
+                    </div>
+                    <div class="drp-drug">
+                        Arsitam (INH/RIF/PZA) + Rifamtibi 450 mg
+                    </div>
+                </div>
+                <span class="sev-badge sev-kritis">Kritis — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P2.1</span>Kejadian
+                        efek samping yang terjadi — cedera hepatoselular
+                        berat. SGOT 1.405 U/L (28× BAN), SGPT 1.936 U/L
+                        (38,7× BAN), Bilirubin 3,58 mg/dL, ikterus sklera
+                        (+/+)</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.1</span>Obat tidak
+                        sesuai untuk pasien ini — risiko hepatotoksisitas
+                        pirazinamid tertinggi; efek gabungan INH+PZA
+                        memperburuk kerusakan hati<br /><span class="code-badge cb-c">C9.1</span>Pemantauan luaran tidak
+                        memadai — SGOT/SGPT tidak
+                        diperiksa sebelum toksisitas menjadi berat</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I3.5</span>OAT
+                        ditunda/dihentikan (05 Mei 2026)<br /><span class="code-badge cb-i">I3.6</span>SNMC 2 amp IV
+                        1×/hari × 2 hari; NAC 200 mg 3×/hari;
+                        Curcuma dimulai<br /><span class="code-badge cb-i">I1.3</span>Apoteker mengusulkan protokol
+                        re-introduksi OAT
+                        bertahap kepada dokter</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A1.1</span>Penghentian OAT diterima dan
+                        diterapkan sepenuhnya
+                        oleh kedua dokter (Sp.P + Sp.PD)</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-partial">O2.1</span>Sebagian teratasi — SGOT
+                        turun dramatis ke 81 U/L
+                        pada H3 (turun 94%); SGPT masih 736 U/L (14,7× BAN).
+                        Re-introduksi OAT menunggu SGPT &lt;2× BAN (&lt;100
+                        U/L)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 2 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--amber-pale); color: #7a5200">
+                    2
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Metformin dikontraindikasikan pada AKI (eGFR 22
+                        mL/mnt)
+                    </div>
+                    <div class="drp-drug">
+                        Metformin 500 mg (OHO pra-rawat inap)
+                    </div>
+                </div>
+                <span class="sev-badge sev-tinggi">Tinggi — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P2.1</span>Efek
+                        samping obat — risiko asidosis laktat. Metformin
+                        dikontraindikasikan bila eGFR &lt;30 mL/mnt (KDIGO);
+                        pasien eGFR = 22. Penggunaan sebelum rawat inap
+                        merupakan risiko bahaya aktif</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.1</span>Obat tidak
+                        sesuai untuk pasien — kontraindikasi pada gangguan
+                        ginjal berat (eGFR &lt;30)<br /><span class="code-badge cb-c">C8.1</span>Masalah rekonsiliasi
+                        obat — Metformin tidak
+                        dihentikan di Puskesmas saat CKD/AKI
+                        berkembang</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I3.5</span>Metformin
+                        dihentikan saat masuk RS<br /><span class="code-badge cb-i">I3.6</span>Diganti dengan Novorapid
+                        (insulin aspart) SK untuk
+                        manajemen DM rawat inap<br /><span class="code-badge cb-i">I1.3</span>Usulkan rencana penggunaan
+                        kembali Metformin saat
+                        pulang hanya bila eGFR &gt;45 mL/mnt</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A1.1</span>Diterima
+                        dan diterapkan — Metformin dihentikan; insulin
+                        dimulai oleh dr. Ardi (Sp.PD)</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-partial">O2.1</span>Sebagian teratasi — risiko
+                        asidosis laktat
+                        dihilangkan. AKI membaik (Kreatinin 3,11→1,74).
+                        Rencana pulang dengan Metformin + Gliklazid tepat
+                        saat eGFR pulih</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 3 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--amber-pale); color: #7a5200">
+                    3
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Pemanjangan QTc aditif — interaksi obat
+                    </div>
+                    <div class="drp-drug">
+                        Levofloksasin 750 mg IV + Ondansetron 4 mg IV
+                        (bersamaan)
+                    </div>
+                </div>
+                <span class="sev-badge sev-tinggi">Tinggi — Potensial</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P2.1</span>Potensi
+                        efek samping — kedua obat memperpanjang interval QT
+                        secara independen. Penggunaan bersamaan menciptakan
+                        risiko aditif torsades de pointes / aritmia
+                        ventrikel; terutama pada kondisi sakit berat dengan
+                        gangguan elektrolit</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.3</span>Kombinasi
+                        obat tidak tepat — interaksi pemanjangan QT yang
+                        diketahui (keduanya Kelas I)<br /><span class="code-badge cb-c">C9.1</span>Tidak ada dokumentasi
+                        pemantauan nilai QTc pada
+                        catatan yang tersedia</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I3.5</span>Levofloksasin dihentikan 09 Mei per
+                        dr. Ardi
+                        (mengurangi risiko QT)<br /><span class="code-badge cb-i">I1.3</span>Usulkan: catat nilai QTc
+                        dari EKG; jika QTc &gt;450
+                        ms, ganti ondansetron dengan metoklopramid<br /><span class="code-badge cb-i">I1.3</span>Usulkan
+                        pemantauan EKG serial selama ondansetron
+                        dilanjutkan</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A1.1</span>Penghentian levofloksasin diterima.
+                        Rekomendasi
+                        pemantauan QTc:
+                        <span class="code-badge cb-a">A3.1</span>Tidak
+                        diketahui — tidak terdokumentasi</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-partial">O2.1</span>Sebagian teratasi —
+                        levofloksasin dihentikan,
+                        mengurangi interaksi. Ondansetron dilanjutkan; nilai
+                        QTc belum dikonfirmasi dari hasil EKG</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            MTO 4–6 — Efektivitas terapi: masalah dosis &amp; pemantauan
+        </div>
+
+        <!-- MTO 4 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--amber-pale); color: #7a5200">
+                    4
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Penyesuaian dosis levofloksasin diperlukan pada CKD
+                        berat
+                    </div>
+                    <div class="drp-drug">
+                        Levofloksasin 750 mg IV / 48 jam
+                    </div>
+                </div>
+                <span class="sev-badge sev-tinggi">Tinggi — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P1.2</span>Efek
+                        terapi tidak optimal — interval dosis sudah
+                        disesuaikan (750 mg/48 jam untuk eGFR 20–49) namun
+                        tanpa pemantauan ginjal eksplisit. Tanpa
+                        penyesuaian, akumulasi obat dan toksisitas (kejang,
+                        QTc, tendinopati) berisiko pada eGFR 22</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C3.3</span>Interval
+                        dosis berpotensi tidak cukup sering ATAU dosis
+                        terlalu tinggi relatif terhadap pembersihan ginjal —
+                        q24h standar merupakan overdosis; q48h tepat namun
+                        di batas atas<br /><span class="code-badge cb-c">C9.1</span>Tidak ada TDM / pemeriksaan fungsi
+                        ginjal yang
+                        terdokumentasi terkait justifikasi dosis</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I3.5</span>Levofloksasin dihentikan 09 Mei oleh
+                        dr. Ardi
+                        (terselesaikan secara de facto)<br /><span class="code-badge cb-i">I1.4</span>Diskusi dengan
+                        dokter: dokumentasikan alasan
+                        penyesuaian dosis ginjal; konfirmasi interval 48 jam
+                        memang disengaja</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A1.1</span>Diterima —
+                        obat dihentikan; pemantauan ginjal dilanjutkan</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-solved">O1.1</span>Masalah teratasi —
+                        levofloksasin dihentikan;
+                        seftriakson (tidak perlu penyesuaian dosis ginjal)
+                        digunakan sebagai pengganti</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 5 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--amber-pale); color: #7a5200">
+                    5
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Kendali glikemik suboptimal — DM T2 belum mencapai
+                        target
+                    </div>
+                    <div class="drp-drug">
+                        Insulin Novorapid (aspart) SK — HbA1c 8,5%
+                    </div>
+                </div>
+                <span class="sev-badge sev-tinggi">Tinggi — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P1.2</span>Efek tidak
+                        optimal — HbA1c 8,5% (target &lt;7% per
+                        ADA/PERKENI). GDS berfluktuasi: 109–247 mg/dL. Dosis
+                        insulin awal (3×4 IU) tidak cukup; perlu titrasi ke
+                        3×8 IU kemudian 3×10 IU dalam 5 hari</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C3.1</span>Dosis obat
+                        awal terlalu rendah (3×4 IU skala geser tidak cukup;
+                        GDS 246 tidak terkendali)<br /><span class="code-badge cb-c">C8.1</span>Rekonsiliasi obat — OHO
+                        (Metformin) dihentikan
+                        tepat tetapi tidak ada rencana pengganti
+                        antidiabetik<br /><span class="code-badge cb-c">C9.1</span>HbA1c tidak diukur sebelum rawat inap
+                        — beban
+                        glikemik 3 bulan tidak diketahui</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I3.2</span>Dosis
+                        disesuaikan: 3×4 IU → 3×8 IU (H2) → 3×10 IU (H5)<br /><span
+                            class="code-badge cb-i">I1.3</span>Usulkan: pemantauan GDS setiap 8 jam (sebelum
+                        makan); cek ulang HbA1c dalam 3 bulan rawat jalan<br /><span
+                            class="code-badge cb-i">I1.3</span>Rencana pulang: Metformin 3×500 mg + Gliklazid 2×80
+                        mg saat eGFR memungkinkan</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A1.1</span>Titrasi
+                        dosis diterima dan diterapkan oleh dr. Ardi. Rencana
+                        pulang diterima</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-partial">O2.1</span>Sebagian teratasi — GDS
+                        membaik (147–171 mg/dL H4).
+                        Risiko hipoglikemia pada GDS 109 mg/dL (H4 pukul
+                        18:00) — pantau ketat. Target HbA1c jangka panjang
+                        belum dapat dicapai selama rawat inap</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 6 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: var(--red-pale); color: var(--red)">
+                    6
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        TB aktif tidak diobati — OAT ditangguhkan tanpa
+                        rencana re-introduksi
+                    </div>
+                    <div class="drp-drug">
+                        OAT (Arsitam / Rifamtibi) — TB Paru dikonfirmasi
+                        GeneXpert
+                    </div>
+                </div>
+                <span class="sev-badge sev-kritis">Kritis — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P1.3</span>Indikasi
+                        tidak diobati — TB paru aktif (MTB TERDETEKSI
+                        RENDAH; sensitif RIF) tanpa terapi anti-TB sejak 05
+                        Mei 2026. TB yang tidak diobati berisiko progresi
+                        penyakit, penularan, dan munculnya resistansi</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.5</span>Tidak ada
+                        terapi obat meski ada indikasi — OAT ditahan akibat
+                        DILI (secara medis dibenarkan jangka pendek, tetapi
+                        perlu protokol re-introduksi terstruktur)<br /><span class="code-badge cb-c">C4.1</span>Durasi
+                        penghentian terapi mungkin terlalu lama —
+                        risiko perburukan TB dan resistansi jika jeda &gt;2
+                        minggu</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I1.3</span>Usulkan
+                        protokol re-introduksi OAT bertahap: Rifampisin 450
+                        mg/hari × 3–7 hari (cek SGOT/SGPT), lalu tambah INH
+                        300 mg/hari × 3–7 hari (cek SGOT/SGPT), lalu
+                        Etambutol ± PZA<br /><span class="code-badge cb-i">I1.3</span>Kriteria restart: SGPT &lt;100 U/L
+                        (&lt;2× BAN) +
+                        Bilirubin membaik + tanpa gejala<br /><span class="code-badge cb-i">I4.1</span>Koordinasi dengan
+                        Sp.P (dr. Marscha) untuk klinik
+                        pemantauan TB rawat jalan</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A3.1</span>Rencana
+                        re-introduksi diusulkan — penerimaan belum
+                        terdokumentasi. SGPT 736 U/L (H3) — kriteria
+                        re-introduksi belum terpenuhi</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-not">O3.3</span>Tidak
+                        teratasi — TB tetap tidak diobati. Intervensi
+                        (pemulihan hati untuk memungkinkan OAT) sedang
+                        berjalan. Masalah akan tetap ada hingga OAT dimulai
+                        kembali dengan aman</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            MTO 7–9 — Efektivitas terapi: indikasi tidak diobati &amp;
+            kesenjangan pemantauan
+        </div>
+
+        <!-- MTO 7 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="background: #dcf0fb; color: #0a5e80">
+                    7
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Hipertensi — indikasi tidak diobati
+                    </div>
+                    <div class="drp-drug">
+                        Tidak ada antihipertensi yang diresepkan (TD
+                        144–159/85–87 mmHg pada pemeriksaan serial)
+                    </div>
+                </div>
+                <span class="sev-badge sev-sedang">Sedang — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P1.3</span>Indikasi
+                        tidak diobati — hipertensi stadium 1–2 persisten
+                        (JNC 8: &gt;140/90 mmHg) sepanjang rawat inap.
+                        Kardiomegali pada foto toraks menunjukkan kerusakan
+                        organ hipertensif kronis. Target TD &lt;130/80 mmHg
+                        pada DM + CKD (ADA/KDIGO)</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.5</span>Tidak ada
+                        antihipertensi yang diresepkan meski hipertensi
+                        persisten terdokumentasi<br /><span class="code-badge cb-c">C9.1</span>Tidak ada target tekanan
+                        darah yang ditetapkan atau
+                        terdokumentasi dalam rencana perawatan</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I1.3</span>Usulkan
+                        Amlodipin 5 mg sekali sehari — aman pada CKD, tidak
+                        ada masalah dosis hepatik, tidak perlu penyesuaian
+                        dosis ginjal, tidak ada efek QTc<br /><span class="code-badge cb-i">I1.3</span>Hindari RAAS
+                        (ACE-I/ARB) selama AKI aktif — dapat
+                        memperburuk GFR; pertimbangkan kembali saat eGFR
+                        stabil (&gt;30 mL/mnt) mengingat indikasi DM+CKD<br /><span
+                            class="code-badge cb-i">I1.4</span>Diskusi dengan dokter: bedakan hipertensi stres
+                        reaktif vs. hipertensi kronis</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A3.1</span>Diusulkan
+                        — penerimaan tidak diketahui. Tidak ada
+                        antihipertensi yang diresepkan dalam catatan yang
+                        tersedia hingga H5</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-not">O3.2</span>Tidak
+                        teratasi — kurangnya tindakan dokter. Hipertensi
+                        persisten terdokumentasi sepanjang 5 hari rawat
+                        inap</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 8 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="
+                            background: var(--green-pale);
+                            color: var(--green);
+                        ">
+                    8
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Edema tungkai bilateral baru — risiko kelebihan
+                        cairan / penyebab belum terselesaikan
+                    </div>
+                    <div class="drp-drug">
+                        IVFD NaCl 0,9% 500 mL/12 jam (berlanjut) pada CKD
+                        eGFR 22
+                    </div>
+                </div>
+                <span class="sev-badge sev-sedang">Sedang — Nyata</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P2.1</span>Kemungkinan efek samping obat — edema
+                        pitting
+                        bilateral muncul H4 (12 Mei). Kemungkinan kelebihan
+                        cairan NaCl 0,9% pada pasien CKD dengan pembersihan
+                        urin yang berkurang. Diferensial: hipoalbuminemia
+                        (DILI), gagal jantung (kardiomegali), asites
+                        hepatik</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C3.2</span>Dosis obat
+                        terlalu tinggi — 500 mL NaCl setiap 12 jam (1.000
+                        mL/hari) berlebihan untuk pasien CKD dengan
+                        pengeluaran cairan yang terganggu<br /><span class="code-badge cb-c">C9.1</span>Tidak ada
+                        pemantauan berat badan harian atau
+                        catatan keseimbangan cairan; serum albumin tidak
+                        diperiksa</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I1.3</span>Usulkan:
+                        kurangi kecepatan infus IV atau ganti ke D5% 0,45%
+                        NaCl (beban natrium lebih rendah)<br /><span class="code-badge cb-i">I1.3</span>Usulkan: periksa
+                        albumin serum + BNP/proBNP untuk
+                        membedakan penyebab<br /><span class="code-badge cb-i">I1.3</span>Usulkan: ekokardiografi
+                        mengingat kardiomegali +
+                        edema baru<br /><span class="code-badge cb-i">I4.1</span>Pengukuran berat badan harian + catatan
+                        keseimbangan cairan ketat</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A3.1</span>Diusulkan
+                        — penerimaan tidak diketahui. Tidak ada dokumentasi
+                        pemeriksaan edema atau penyesuaian cairan hingga
+                        H5</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-not">O3.3</span>Tidak
+                        teratasi — edema menetap; penyebab utama belum
+                        ditentukan; tidak ada terapi spesifik yang
+                        dimulai</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTO 9 -->
+        <div class="drp-card">
+            <div class="drp-header">
+                <div class="drp-num" style="
+                            background: var(--green-pale);
+                            color: var(--green);
+                        ">
+                    9
+                </div>
+                <div class="drp-title-block">
+                    <div class="drp-name">
+                        Anemia dengan RDW tinggi — tidak diobati / tidak
+                        diselidiki
+                    </div>
+                    <div class="drp-drug">
+                        Tidak ada suplemen besi/hematologi (Hb 12,0 g/dL;
+                        RDW 19,5%)
+                    </div>
+                </div>
+                <span class="sev-badge sev-rendah">Rendah-Sedang — Potensial</span>
+            </div>
+            <div class="drp-body">
+                <div class="drp-row">
+                    <span class="drp-lbl">Masalah</span>
+                    <span class="drp-val"><span class="code-badge cb-p">P1.3</span>Indikasi
+                        potensial tidak diobati — Hb 12,0 g/dL (di bawah
+                        13,2 pada pria), RDW 19,5% (sangat meningkat; normal
+                        &lt;14,5%) menunjukkan komponen anemia campuran atau
+                        defisiensi besi. Kemungkinan anemia penyakit kronis
+                        diperparah defisiensi nutrisi</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penyebab</span>
+                    <span class="drp-val"><span class="code-badge cb-c">C1.5</span>Tidak ada
+                        terapi obat untuk anemia meski ada bukti
+                        laboratorium (Hb rendah + RDW tinggi)<br /><span class="code-badge cb-c">C9.1</span>Pemeriksaan
+                        besi (feritin, TIBC, besi serum) tidak
+                        dipesan — etiologi anemia belum dikonfirmasi</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Intervensi</span>
+                    <span class="drp-val"><span class="code-badge cb-i">I1.2</span>Minta
+                        dokter memesan: feritin serum, besi serum, TIBC,
+                        hitung retikulosit<br /><span class="code-badge cb-i">I1.3</span>Jika defisiensi besi
+                        terkonfirmasi: usulkan ferrous
+                        sulfat oral 1×300 mg/hari (setelah lambung stabil,
+                        mual teratasi)<br /><span class="code-badge cb-i">I1.3</span>Pertimbangkan: cek ulang Hb saat
+                        pulang; tindak
+                        lanjut hematologi rawat jalan</span>
+                </div>
+                <div class="drp-row">
+                    <span class="drp-lbl">Penerimaan</span>
+                    <span class="drp-val"><span class="code-badge cb-a">A3.2</span>Intervensi
+                        belum diusulkan ke dokter — menunggu stabilitas GI
+                        sebelum memulai besi oral</span>
+                </div>
+                <div class="drp-row full">
+                    <span class="drp-lbl">Status Luaran</span>
+                    <span class="drp-val"><span class="code-badge cb-o-unk">O0.1</span>Status
+                        tidak diketahui — etiologi anemia belum ditentukan;
+                        tidak ada terapi yang dimulai. Prioritas lebih
+                        rendah mengingat keparahan ringan, tetapi
+                        investigasi dianjurkan sebelum pulang</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== TAB 3: RINGKASAN ===================== -->
+    <div id="tab-ringkasan" class="tab-content">
+        <div class="section-title">
+            Ringkasan Luaran &amp; Rekomendasi Farmasi Klinis
+        </div>
+        <div class="section-sub">
+            Status setiap MTO per PCNE V9.1 beserta prioritas tindakan
+            klinis
+        </div>
+
+        <table class="outcome-table">
+            <thead>
+                <tr>
+                    <th style="min-width: 40px">No.</th>
+                    <th>Masalah Terkait Obat</th>
+                    <th>Obat Terlibat</th>
+                    <th>Kode P</th>
+                    <th>Kode C</th>
+                    <th>Status Masuk RS</th>
+                    <th>Status H5 (13 Mei)</th>
+                    <th>Kode</th>
+                    <th>Tindakan Prioritas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: var(--red);
+                            ">
+                        1
+                    </td>
+                    <td>DILI ec OAT</td>
+                    <td>Arsitam + Rifamtibi</td>
+                    <td><span class="code-badge cb-p">P2.1</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.1</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>SGOT 1.405, SGPT 1.936 — KRITIS</td>
+                    <td>SGOT 81, SGPT 736 — MEMBAIK</td>
+                    <td>
+                        <span class="code-badge cb-o-partial">O2.1</span>
+                    </td>
+                    <td>
+                        Pantau SGPT; rencana re-introduksi OAT saat SGPT
+                        &lt;100 U/L
+                    </td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: #7a5200;
+                            ">
+                        2
+                    </td>
+                    <td>Metformin kontraindikasi AKI</td>
+                    <td>Metformin 500 mg</td>
+                    <td><span class="code-badge cb-p">P2.1</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.1</span><span class="code-badge cb-c">C8.1</span>
+                    </td>
+                    <td>eGFR 22 — KONTRAINDIKASI</td>
+                    <td>Dihentikan; Insulin dimulai</td>
+                    <td>
+                        <span class="code-badge cb-o-partial">O2.1</span>
+                    </td>
+                    <td>
+                        Mulai kembali Metformin saat pulang bila eGFR &gt;45
+                    </td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: #7a5200;
+                            ">
+                        3
+                    </td>
+                    <td>Risiko QTc aditif (DDI)</td>
+                    <td>Levofloksasin + Ondansetron</td>
+                    <td><span class="code-badge cb-p">P2.1</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.3</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>Kombinasi QT — POTENSIAL BERBAHAYA</td>
+                    <td>Levofloksasin dihentikan; QTc belum dicatat</td>
+                    <td>
+                        <span class="code-badge cb-o-partial">O2.1</span>
+                    </td>
+                    <td>Dokumentasi nilai QTc dari EKG; pantau serial</td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: #7a5200;
+                            ">
+                        4
+                    </td>
+                    <td>Dosis levofloksasin — CKD</td>
+                    <td>Levofloksasin 750 mg/48 jam</td>
+                    <td><span class="code-badge cb-p">P1.2</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C3.3</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>Dosis di batas atas untuk eGFR 22</td>
+                    <td>TERATASI — obat dihentikan</td>
+                    <td>
+                        <span class="code-badge cb-o-solved">O1.1</span>
+                    </td>
+                    <td>Tidak diperlukan — masalah terselesaikan</td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: #7a5200;
+                            ">
+                        5
+                    </td>
+                    <td>Kendali glikemik buruk DM T2</td>
+                    <td>Insulin Novorapid</td>
+                    <td><span class="code-badge cb-p">P1.2</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C3.1</span><span class="code-badge cb-c">C8.1</span><span
+                            class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>HbA1c 8,5%; GDS 246 mg/dL</td>
+                    <td>GDS 147–171; titrasi 3×10 IU</td>
+                    <td>
+                        <span class="code-badge cb-o-partial">O2.1</span>
+                    </td>
+                    <td>Pantau GDS tiap 8 jam; rencana OHO saat pulang</td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: var(--red);
+                            ">
+                        6
+                    </td>
+                    <td>TB aktif tidak diobati</td>
+                    <td>OAT (ditangguhkan)</td>
+                    <td><span class="code-badge cb-p">P1.3</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.5</span><span class="code-badge cb-c">C4.1</span>
+                    </td>
+                    <td>OAT stop 05 Mei — TB aktif belum diobati</td>
+                    <td>SGPT masih 736 — kriteria belum terpenuhi</td>
+                    <td><span class="code-badge cb-o-not">O3.3</span></td>
+                    <td>
+                        MENDESAK: buat protokol re-introduksi OAT tertulis
+                    </td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: #0a5e80;
+                            ">
+                        7
+                    </td>
+                    <td>Hipertensi tidak diobati</td>
+                    <td>Tidak ada antihipertensi</td>
+                    <td><span class="code-badge cb-p">P1.3</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.5</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>TD 144–159/85–87 mmHg persisten</td>
+                    <td>Hipertensi persisten sepanjang 5 hari</td>
+                    <td><span class="code-badge cb-o-not">O3.2</span></td>
+                    <td>
+                        Usulkan Amlodipin 5 mg; diskusikan dengan dr. Ardi
+                    </td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: var(--green);
+                            ">
+                        8
+                    </td>
+                    <td>Edema tungkai bilateral</td>
+                    <td>NaCl 0,9% 1.000 mL/hari</td>
+                    <td><span class="code-badge cb-p">P2.1</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C3.2</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>Edema baru muncul H4</td>
+                    <td>Menetap; penyebab belum diidentifikasi</td>
+                    <td><span class="code-badge cb-o-not">O3.3</span></td>
+                    <td>Cek albumin + BNP; pertimbangkan ekokardiografi</td>
+                </tr>
+                <tr>
+                    <td style="
+                                font-weight: 700;
+                                font-family: var(--mono);
+                                color: var(--green);
+                            ">
+                        9
+                    </td>
+                    <td>Anemia RDW tinggi</td>
+                    <td>Tidak ada suplemen besi</td>
+                    <td><span class="code-badge cb-p">P1.3</span></td>
+                    <td>
+                        <span class="code-badge cb-c">C1.5</span><span class="code-badge cb-c">C9.1</span>
+                    </td>
+                    <td>Hb 12,0; RDW 19,5%</td>
+                    <td>Belum diselidiki</td>
+                    <td><span class="code-badge cb-o-unk">O0.1</span></td>
+                    <td>Pesan feritin, besi serum, TIBC, retikulosit</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 28px">
+            <div class="section-title" style="margin-bottom: 12px">
+                Tiga MTO Paling Mendesak yang Belum Teratasi
+            </div>
+            <div style="
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 14px;
+                    ">
+                <div style="
+                            background: var(--red-pale);
+                            border: 1px solid #f0b0ae;
+                            border-radius: var(--radius-lg);
+                            padding: 14px 16px;
+                        ">
+                    <div style="
+                                font-size: 11px;
+                                font-weight: 700;
+                                color: var(--red);
+                                letter-spacing: 0.06em;
+                                text-transform: uppercase;
+                                margin-bottom: 6px;
+                            ">
+                        MTO 6 — Paling Mendesak
+                    </div>
+                    <div style="
+                                font-size: 13px;
+                                font-weight: 600;
+                                color: var(--text);
+                                margin-bottom: 6px;
+                            ">
+                        TB Aktif Tanpa OAT
+                    </div>
+                    <div style="
+                                font-size: 12px;
+                                color: var(--text-mid);
+                                line-height: 1.6;
+                            ">
+                        TB tidak dapat dibiarkan lama. Susun protokol
+                        re-introduksi bertahap segera. Target SGPT &lt;100
+                        U/L sebelum memulai Rifampisin kembali.
+                    </div>
+                </div>
+                <div style="
+                            background: #fff8e1;
+                            border: 1px solid #f5d97a;
+                            border-radius: var(--radius-lg);
+                            padding: 14px 16px;
+                        ">
+                    <div style="
+                                font-size: 11px;
+                                font-weight: 700;
+                                color: #7a5200;
+                                letter-spacing: 0.06em;
+                                text-transform: uppercase;
+                                margin-bottom: 6px;
+                            ">
+                        MTO 7 — Kritis Tersembunyi
+                    </div>
+                    <div style="
+                                font-size: 13px;
+                                font-weight: 600;
+                                color: var(--text);
+                                margin-bottom: 6px;
+                            ">
+                        Hipertensi Tidak Diobati
+                    </div>
+                    <div style="
+                                font-size: 12px;
+                                color: var(--text-mid);
+                                line-height: 1.6;
+                            ">
+                        Kardiomegali + DM + CKD = kerusakan organ target.
+                        Target TD &lt;130/80. Amlodipin 5 mg aman saat AKI
+                        aktif. Hindari RAAS dahulu.
+                    </div>
+                </div>
+                <div style="
+                            background: #dcf0fb;
+                            border: 1px solid #85b7eb;
+                            border-radius: var(--radius-lg);
+                            padding: 14px 16px;
+                        ">
+                    <div style="
+                                font-size: 11px;
+                                font-weight: 700;
+                                color: #0a5e80;
+                                letter-spacing: 0.06em;
+                                text-transform: uppercase;
+                                margin-bottom: 6px;
+                            ">
+                        MTO 8 — Perlu Investigasi
+                    </div>
+                    <div style="
+                                font-size: 13px;
+                                font-weight: 600;
+                                color: var(--text);
+                                margin-bottom: 6px;
+                            ">
+                        Edema Bilateral Baru
+                    </div>
+                    <div style="
+                                font-size: 12px;
+                                color: var(--text-mid);
+                                line-height: 1.6;
+                            ">
+                        Muncul H4. Cek albumin serum + BNP. Pertimbangkan
+                        ekokardiografi. Kurangi cairan NaCl atau ganti jenis
+                        cairan bila kelebihan terbukti.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-box" style="margin-top: 20px">
+            <strong>Referensi Klasifikasi:</strong> PCNE Classification for
+            Drug-Related Problems V9.1 (Pharmaceutical Care Network Europe
+            Association, Mei 2020). Kode P = Masalah, C = Penyebab, I =
+            Intervensi, A = Penerimaan, O = Status Luaran. Satu masalah
+            dapat memiliki lebih dari satu kode penyebab dan intervensi. BAN
+            = Batas Atas Normal; DILI = Drug-Induced Liver Injury; OAT =
+            Obat Anti-Tuberkulosis; AKI = Acute Kidney Injury; CKD = Chronic
+            Kidney Disease; DM = Diabetes Melitus; eGFR = estimated
+            Glomerular Filtration Rate; GDS = Gula Darah Sewaktu; HbA1c =
+            Glycated Hemoglobin; SGOT/SGPT = Serum
+            Glutamic-Oxaloacetic/Pyruvic Transaminase; TD = Tekanan Darah.
+        </div>
+    </div>
+
+    <script>
+        function showTab(id, btn) {
+            document
+                .querySelectorAll(".tab-content")
+                .forEach((t) => t.classList.remove("active"));
+            document
+                .querySelectorAll(".tab-btn")
+                .forEach((b) => b.classList.remove("active"));
+            document.getElementById("tab-" + id).classList.add("active");
+            btn.classList.add("active");
+        }
+    </script>
+</body>
+
+</html>
